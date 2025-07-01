@@ -10,15 +10,10 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-# MongoDB Atlas connection (retrieved from environment variables)
-# If MONGO_URI is not set in .env or environment, it will default to the hardcoded string
-# For production deployment (e.g., Render), the platform's environment variables
-# will override anything in .env
-MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://kirubapanneers:ImpZ0a1YhmzfaREy@cluster0.dcn2nto.mongodb.net/github_events?retryWrites=true&w=majority&appName=Cluster0")
+
+MONGO_URI = os.getenv("MONGO_URI")
 client = MongoClient(MONGO_URI)
-db = client['github_events'] # This will be the 'github_events' database within your Atlas cluster
-
-
+db = client['github_events'] 
 @app.route('/webhook', methods=['POST'])
 def webhook():
     event = request.headers.get('X-GitHub-Event')
