@@ -19,7 +19,9 @@ def webhook():
     event = request.headers.get('X-GitHub-Event')
     payload = request.json
     data = {}
-
+       # Handle GitHub's ping event for webhook verification
+    if event == 'ping':
+        return jsonify({"status": "ok", "message": "Ping received"}), 200
     if event == 'push':
         data = {
             "action": "push",
